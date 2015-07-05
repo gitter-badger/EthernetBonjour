@@ -84,33 +84,6 @@ typedef enum _DNSOpCode_t {
    DNSOpUpdate    = 5
 } DNSOpCode_t;
 
-// for some reason, I get data corruption issues with normal malloc() on arduino 0017
-void* my_malloc(unsigned s)
-{
-#if defined(_BROKEN_MALLOC_)
-   char* b = (char*)malloc(s+2);
-   if (b)
-      b++;
-   
-   return (void*)b;
-#else
-   return malloc(s);
-#endif
-}
-
-void my_free(void* ptr)
-{
-#if defined(_BROKEN_MALLOC_)
-   char* b = (char*)ptr;
-   if (b)
-      b--;
-   
-   free(b);
-#else
-   free(ptr);
-#endif
-}
-
 EthernetBonjourClass::EthernetBonjourClass()
 {
    memset(&this->_mdnsData, 0, sizeof(MDNSDataInternal_t));
